@@ -29,6 +29,7 @@
           $name = $_POST['name'];
           $email = $_POST['email'];
           $phone = $_POST['phone'];
+          $age = $_POST['age'];
           $file = $_POST['file'];
 
           if (empty($name)){
@@ -46,6 +47,11 @@
             $req['phone'] = "<P style=\"color:red;\"> * Required </p>";
 
           }
+          if (empty($age)){
+
+            $req['age'] = "<P style=\"color:red;\"> * Required </p>";
+
+          }
 
 
           //Email extension checking
@@ -56,13 +62,20 @@
 
           }
 
+          //age checking
+          if (isset($age)){
+
+            $age_ck = ($age);
+
+          }
+
           // Phone number checking
 
            $mobile_start = substr($phone, 0, 3 );
 
 
 
-          if( empty($name) || empty($email) || empty($phone)  ){
+          if( empty($name) || empty($email) || empty($phone) || empty($age) ){
 
            $msg = "<p class=\"alert alert-danger alert-dismissible fade show\"> All Fields are Required ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
 
@@ -78,8 +91,11 @@
 
             $msg = "<p class=\"alert alert-danger alert-dismissible fade show\"> Please put valid Phone number ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
 
-           }
-          else{
+           } else if(($age_ck >= '18' && $age_ck <= '40') == false ){
+
+            $msg = "<p class=\"alert alert-danger alert-dismissible fade show\"> Only 18 to 40 People are allowed ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
+
+           } else{
 
           $msg = "<p class=\"alert alert-success alert-dismissible fade show\"> Data Uploaded Successfully ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
 
