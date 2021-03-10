@@ -142,7 +142,7 @@
 
               <div class="row">
                 <div class="col-md-6 form-group mb-5">
-                  <label for="" class="col-form-label">Phone</label>
+                  <label for="" class="col-form-label">Phone *</label>
                   <input type="text" class="form-control" name="phone" id="phone"  placeholder="Phone #">
 
                   <?php
@@ -154,11 +154,31 @@
 
                 ?>
                 </div>
+
                 <div class="col-md-6 form-group mb-5">
                   <label for="file-upload" class="col-form-label"> <img style="cursor:pointer;" data-toggle="tooltip" title="Profile Photo" width="250px" src="images/profile.png" alt="">    </label>
                   <input type="file" style="display: none;" class="form-control" name="file" id="file-upload">
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col-md-6 form-group mb-5">
+                  <label for="" class="col-form-label">age *</label>
+                  <input type="number" class="form-control" name="age" id="age"  placeholder="Your Age">
+
+                  <?php
+
+                if (isset($req['age'])){
+
+                echo $req['age'];
+                }
+
+                ?>
+                </div>
+              
+              </div>
+
+              
               <div class="row">
                 <div class="col-md-12 form-group">
                   <input type="submit" value="Sign Up" name="insert" class="btn btn-primary rounded-0 py-2 px-4">
