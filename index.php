@@ -49,29 +49,39 @@
 
 
           //Email extension checking
+          if (isset($email)){
 
-     
-            $email_ex = explode('@', '$email');
+            $email_ex = explode('@', $email);
             $ins_email = end($email_ex);
+
+          }
+
+          // Phone number checking
+
+           $mobile_start = substr($phone, 0, 3 );
 
 
 
           if( empty($name) || empty($email) || empty($phone)  ){
 
-           $msg = "<p class=\" alert alert-danger\"> All Fields are Required ! <button class=\" close \" data-bs-dismiss=\"alert\">&times;</button>  </p>";
+           $msg = "<p class=\"alert alert-danger alert-dismissible fade show\"> All Fields are Required ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
 
           }else if (filter_var($email, FILTER_VALIDATE_EMAIL) == false ){
             
-            $msg = "<p class=\" alert alert-warning\"> Invalid Email Address ! <button class=\" close \" data-bs-dismiss=\"alert\">&times;</button>  </p>";
+            $msg = "<p class=\"alert alert-warning alert-dismissible fade show\"> Invalid Email Address ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
 
           }else if ($ins_email != 'codertrust.com'){
             
-            $msg = "<p class=\" alert alert-info\"> Email should be our Organization ! <button class=\" close \" data-bs-dismiss=\"alert\">&times;</button>  </p>";
+            $msg = "<p class=\"alert alert-info alert-dismissible fade show\"> Email should be our Organization ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
 
-          }
+           } else if( in_array($mobile_start, ['017', '013', '014', '018', '015', '016', '019' ]) == false ){
+
+            $msg = "<p class=\"alert alert-danger alert-dismissible fade show\"> Please put valid Phone number ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
+
+           }
           else{
 
-          $msg = "<p class=\" alert alert-success\"> Data Stable ! <button class=\" close \" data-bs-dismiss=\"alert\">&times;</button>  </p>";
+          $msg = "<p class=\"alert alert-success alert-dismissible fade show\"> Data Uploaded Successfully ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
 
           }
 
