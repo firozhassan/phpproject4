@@ -23,6 +23,8 @@
 
         if (isset($_POST['insert'])){
 
+
+
           // form value get
 
 
@@ -30,7 +32,7 @@
           $email = $_POST['email'];
           $phone = $_POST['phone'];
           $age = $_POST['age'];
-          $file = $_POST['file'];
+          $file = $_FILES['profile_photo'];
 
           if (empty($name)){
 
@@ -54,6 +56,8 @@
           }
 
 
+
+
           //Email extension checking
           if (isset($email)){
 
@@ -72,6 +76,47 @@
           // Phone number checking
 
            $mobile_start = substr($phone, 0, 3 );
+
+           //file Uploading & file info
+
+           $file_name = $file['name'];
+           $file_tmpname = $file['tmp_name'];
+           $file_size = $file['size'];
+           $file_in_kb = $file_size/ 1024; 
+          
+           // find file extension
+
+          $file_array = explode('.', $file_name);
+          $file_extension = end($file_array);
+
+          // change the name of uploaded file
+
+          $file_name_change = rand(1, 99999999) . time();
+          $unique_file_name = md5($file_name_change) . '.' . $file_extension; 
+
+          // check the file extension
+
+          if (empty($file_name)){
+            
+            $file_error = "<P style=\"color:red;\"> * Please select a file </p>";
+
+          }
+          else if(in_array($file_extension, ['jpg', 'jpeg', 'gif', 'pdf', 'webp' ])== false ){
+
+            $file_error = "<P style=\"color:red;\"> * Invalid File Format </p>";
+
+          }else if($file_in_kb > 500 ){
+
+            $file_error = "<P style=\"color:red;\"> * File Size is too Large </p>";
+
+          }
+          
+          else {
+
+            move_uploaded_file($file_tmpname, 'images/' . $unique_file_name );
+            $file_error = "<P style=\"color:green;\"> * Photo Upload Successfully </p>";
+
+          }
 
 
 
@@ -99,15 +144,12 @@
 
           $msg = "<p class=\"alert alert-success alert-dismissible fade show\"> Data Uploaded Successfully ! <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>  </p>";
 
-          }
+          } 
 
+ 
         }
 
-
-
-      ?>
-
-
+        ?>
 
 
   <div class="content">
@@ -126,7 +168,7 @@
          }
             ?>
 
-            <form action="" method="post" enctype="multipart-form-data" id="contactForm" name="contactForm">
+            <form action="" method="post" enctype="multipart/form-data" id="contactForm" name="contactForm">
               <div class="row">
                 <div class="col-md-6 form-group mb-5">
                   <label for="" class="col-form-label">Name *</label>
@@ -142,6 +184,14 @@
                   ?>
 
                 </div>
+
+                  <!-- <div class="form-group">
+                  
+                  <img id="upload_photo" src="" alt="">
+                  
+                  </div> -->
+
+
                 <div class="col-md-6 form-group mb-5">
                   <label for="" class="col-form-label">Email *</label>
                   <input type="text" class="form-control" name="email" id="email"  placeholder="Your email">
@@ -172,8 +222,15 @@
                 </div>
 
                 <div class="col-md-6 form-group mb-5">
-                  <label for="file-upload" class="col-form-label"> <img style="cursor:pointer;" data-toggle="tooltip" title="Profile Photo" width="250px" src="images/profile.png" alt="">    </label>
-                  <input type="file" style="display: none;" class="form-control" name="file" id="file-upload">
+                  <label for="file_up" class="col-form-label"> <img style="cursor:pointer;" data-bs-toggle="tooltip" title="Profile Photo" width="250px" src="images/profile.png" alt="">    </label>
+                  <input type="file" style="display: none;" class="form-control" name="profile_photo" id="file_up">
+                  <?php
+
+                  if(isset($file_error) ){
+
+                  echo $file_error;
+                  }
+                  ?>
                 </div>
               </div>
 
@@ -223,7 +280,7 @@
                 - স্পেসিফিক ইমেইল ভেলিডেসন
                 - ফোন নাম্বার ভেলিডেসন
                 - বয়স ভেলিডেট করুন যেখানে শুধু মাত্র ১৮ বছরের বেশি এবং ৪০ বছরের কম ইউজার রা সাইনআপ করতে পারবে
-                - সাইন আপ করার সময় একটি ম্যাথমেটিকস সলিওসন সিসটেম এড করুন এবং সেটা ভেলিডেট করুন
+                - সাইন আপ করার সময় একটি ম্যাথমেটিকস সলিওসন সিসটেম এড করুন এবং সেটা ভেলিডেট করুন 
                 - সাথে একটি প্রফাইল ফটো আপলোড করুন এবং জাভাস্ক্রিপ্ট প্রিভিও সিসটেম টাও রেডি করুন
                 - স্ট্রিং কেপচা সিসটেম এড করুন এবং সেটার সলিওসন ভেলিডেট করুন
                 - ফাইল আপলোডের ক্ষেত্রে ফরমেট ভেলিডেট করুন
@@ -256,6 +313,15 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.validate.min.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+      
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
+
 
   </body>
 </html>
